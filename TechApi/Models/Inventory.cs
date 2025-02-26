@@ -20,7 +20,6 @@ namespace TechApi.Model
 
         public int ReorderStock { get; set; }
 
-        // علاقة مع جدول المنتجات (إن وجد)
         //[ForeignKey("ProductId")]
         //public virtual Product? Product { get; set; }
     }
