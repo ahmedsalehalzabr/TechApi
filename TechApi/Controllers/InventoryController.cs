@@ -40,7 +40,7 @@ namespace TechApi.Controllers
 
         [HttpPost]
         // [Authorize(Roles = "Writer")]
-        public async Task<IActionResult> CreateRating([FromBody] CreateInventoryDto request)
+        public async Task<IActionResult> CreateInventory([FromBody] CreateInventoryDto request)
         {
             var inventory = new Inventory
             {
@@ -68,7 +68,7 @@ namespace TechApi.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAllRating()
+        public async Task<IActionResult> GetAllInventory()
         {
             var inventories = await inventoryRepository.GetAllAsync();
 
@@ -91,9 +91,8 @@ namespace TechApi.Controllers
         }
 
         [HttpGet]
-        [Route("{id:Guid}")]
-
-        public async Task<IActionResult> GetBlogPostById([FromRoute] int id)
+        [Route("{id:int}")]
+        public async Task<IActionResult> GetInventoryInventoryById([FromRoute] int id)
         {
             var inventories = await inventoryRepository.GetByIdAsync(id);
 
@@ -118,53 +117,44 @@ namespace TechApi.Controllers
 
 
 
+        
         [HttpPut]
         [Route("{id:int}")]
-        // [Authorize(Roles = "Writer")]
-        public async Task<IActionResult> UpdateBlogPostById([FromRoute] int id, CreateInventoryDto request)
+        public async Task<IActionResult> UpdateInventoryById([FromRoute] int id, CreateInventoryDto request)
         {
-            //Convert DTO to Domain Model
-
             var inventory = new Inventory
             {
-
+                Id = id, // إصلاح الخطأ بتعيين الـ ID
                 ProductId = request.ProductId,
                 ProductName = request.ProductName,
                 StockAvailable = request.StockAvailable,
                 ReorderStock = request.ReorderStock,
-
-
             };
 
+            var updatedInventory = await inventoryRepository.UpdateAsync(inventory);
 
-
-            // call repository to update BlogPost domain model
-            var updateRating = await inventoryRepository.UpdateAsync(inventory);
-
-            if (updateRating == null)
+            if (updatedInventory == null)
             {
                 return NotFound();
             }
 
-            //convert domain model back to DTO
             var response = new InventoryDto
             {
-                Id = inventory.Id,
-                ProductId = inventory.ProductId,
-                ProductName = inventory.ProductName,
-                StockAvailable = inventory.StockAvailable,
-                ReorderStock = inventory.ReorderStock,
-
-
+                Id = updatedInventory.Id,
+                ProductId = updatedInventory.ProductId,
+                ProductName = updatedInventory.ProductName,
+                StockAvailable = updatedInventory.StockAvailable,
+                ReorderStock = updatedInventory.ReorderStock,
             };
-            return Ok(response);
 
+            return Ok(response);
         }
+
 
         [HttpDelete]
         [Route("{id:int}")]
         //   [Authorize(Roles = "Writer")]
-        public async Task<IActionResult> DeleteBlogPost([FromRoute] int id)
+        public async Task<IActionResult> DeleteInventory([FromRoute] int id)
         {
             var deleteInventory = await inventoryRepository.DeleteAsync(id);
 
