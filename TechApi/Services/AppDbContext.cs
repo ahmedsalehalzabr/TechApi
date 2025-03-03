@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using TechApi.Model;
+using TechApi.Models;
 
 namespace TechApi.Services
 {
@@ -11,5 +12,6 @@ namespace TechApi.Services
 
         }
        public DbSet<Inventory> inventories {  get; set; } 
+       public DbSet<Customer> customers { get; set; }
     }
 }

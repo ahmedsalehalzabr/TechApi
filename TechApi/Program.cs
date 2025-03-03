@@ -15,6 +15,8 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<AppDbContext>(op =>
       op.UseSqlServer(builder.Configuration.GetConnectionString("myCon")));
 builder.Services.AddScoped<IInventoryRepositories, InventoryRepositories>();
+builder.Services.AddScoped<ICustomerRepositories, CustomerRepositories>();
+
 
 
 var app = builder.Build();
